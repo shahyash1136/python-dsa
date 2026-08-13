@@ -85,6 +85,8 @@ class LinkedList:
         pass
 
     def delete_by_value(self, value):
+        if self.head is None:
+            return False
         if self.head.value == value:
             temp = self.head
             self.head = temp.next
