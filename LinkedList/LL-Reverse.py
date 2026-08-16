@@ -131,6 +131,22 @@ class LinkedList:
             temp.next = None
             return temp.value
 
+    def reverse(self):
+        if self.head is None:
+            return False
+
+        prev = None
+        current = self.head
+        next = current.next
+        while current is not None:
+            current.next = prev
+            prev = current
+            current = next
+            if current is not None:
+                next = current.next
+        self.tail = self.head
+        self.head = prev
+
 
 myLinkedList = LinkedList()
 myLinkedList.append(10)
