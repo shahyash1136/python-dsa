@@ -14,6 +14,9 @@ class LinkedList:
             print(temp.val)
             temp = temp.next
 
+    def _handle_empty_list(self, new_node):
+        self.head = new_node
+
     def _get_length(self):
         temp = self.head
         length = 0
@@ -21,9 +24,6 @@ class LinkedList:
             length += 1
             temp = temp.next
         return length
-
-    def _handle_empty_node(self, new_node):
-        self.head = new_node
 
     def _get_prev_node(self, index):
         prev_node = self.head
@@ -34,7 +34,7 @@ class LinkedList:
     def append(self, val):
         new_node = Node(val)
         if self.head is None:
-            self._handle_empty_node(new_node)
+            self._handle_empty_list(new_node)
         else:
             temp = self.head
             while temp.next is not None:
@@ -45,7 +45,7 @@ class LinkedList:
     def prepend(self, val):
         new_node = Node(val)
         if self.head is None:
-            self._handle_empty_node(new_node)
+            self._handle_empty_list(new_node)
         else:
             new_node.next = self.head
             self.head = new_node
@@ -58,24 +58,28 @@ class LinkedList:
             return self.prepend(val)
         elif index == length:
             return self.append(val)
+        else:
+            new_node = Node(val)
+            prev_node = self._get_prev_node(index)
 
-        new_node = Node(val)
-        prev_node = self._get_prev_node(index)
-
-        new_node.next = prev_node.next
-        prev_node.next = new_node
+            new_node.next = prev_node.next
+            prev_node.next = new_node
 
     def pop(self):
         if self.head is None:
             return None
+        elif self.head.next is None:
+            temp = self.head
+            self.head = None
+            return temp
         else:
             temp = self.head
-            prev_node = self.head
+            prev = self.head
             while temp.next is not None:
-                prev_node = temp
-                temp = temp.next
+                prev = temp
+                temp = prev.next
 
-            prev_node.next = None
+            prev.next = None
             return temp
 
     def shift(self):
@@ -109,32 +113,31 @@ class LinkedList:
             return self.shift()
         else:
             temp = self.head
-            prev = self.head
+            prev_node = self.head
             while temp is not None and temp.val != val:
-                prev = temp
-                temp = prev.next
+                prev_node = temp
+                temp = prev_node.next
 
             if temp is None:
                 return None
 
-            prev.next = temp.next
+            prev_node.next = temp.next
             temp.next = None
             return temp
 
     def reverse(self):
         if self.head is None:
             return None
-        else:
-            prev = None
-            current = self.head
-            next = current.next
-            while current is not None:
-                current.next = prev
-                prev = current
-                current = next
-                if current is not None:
-                    next = current.next
-            return prev
+        prev = None
+        current = self.head
+        next = current.next
+        while current is not None:
+            current.next = prev
+            prev = current
+            current = next
+            if current is not None:
+                next = current.next
+        return prev
 
     def find_middle(self):
         if self.head is None:
@@ -145,7 +148,6 @@ class LinkedList:
             while fast is not None and fast.next is not None:
                 slow = slow.next
                 fast = fast.next.next
-
             return slow
 
     def has_cycle(self):
@@ -169,25 +171,42 @@ class LinkedList:
         elif self.head is None:
             return None
         else:
-            slow = self.head
-            fast = self.head
+            first = self.head
+            second = self.head
+
             for _ in range(n):
-                fast = fast.next
+                first = first.next
 
-            while fast is not None:
-                fast = fast.next
-                slow = slow.next
+            while first is not None:
+                first = first.next
+                second = second.next
 
-            return slow
+            return second
+
+    def rotate_nth_times(self, n):
+        if self.head is None:
+            return
+        length = self._get_length()
+        n = n % length
+        if n == 0:
+            return
+
+        new_tail = self._get_prev_node(length - n)
+        new_head = new_tail.next
+
+        temp = self.head
+        while temp.next is not None:
+            temp = temp.next
+
+        temp.next = self.head
+        new_tail.next = None
+        self.head = new_head
 
 
 myLinkedList = LinkedList()
 myLinkedList.prepend(10)
-myLinkedList.prepend(5)
-myLinkedList.append(20)
-myLinkedList.append(25)
-myLinkedList.insert_at_index(2, 15)
+myLinkedList.append(30)
+myLinkedList.append(40)
+myLinkedList.insert_at_index(1, 20)
 myLinkedList.print_lines()
-
-
-print(f"find_middle called here => {myLinkedList.nth_from_end(2).val}")
+print(f"Delete with pop =:> {myLinkedList.find_middle().val}")
