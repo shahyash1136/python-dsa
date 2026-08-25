@@ -22,9 +22,9 @@ class LinkedList:
             prev_node = prev_node.next
         return prev_node
 
-    def _reverse(self,middle_element):
+    def _reverse(self,data):
         prev= None
-        current = middle_element.next
+        current = data
         next = current.next
         while current is not None:
             current.next = prev
@@ -33,7 +33,7 @@ class LinkedList:
             if current is not None:
                 next = current.next
 
-        return current
+        return prev
 
     def _get_length(self):
         temp = self.head
@@ -47,7 +47,7 @@ class LinkedList:
     def append(self,value):
         new_node = Node(value)
         if self.head is None:
-            self.head = self._handle_empty_list(new_node)
+            self._handle_empty_list(new_node)
         else:
             temp= self.head
             while temp.next is not None:
@@ -58,7 +58,7 @@ class LinkedList:
     def prepend(self,value):
         new_node = Node(value)
         if self.head is None:
-            self.head = self._handle_empty_list(new_node)
+            self._handle_empty_list(new_node)
         else:
             new_node.next = self.head
             self.head = new_node
@@ -154,7 +154,7 @@ class LinkedList:
             return prev
 
     def find_middle(self):
-        if self.head is not None:
+        if self.head is None:
             return
         else:
             slow = self.head
@@ -252,21 +252,36 @@ class LinkedList:
                     current = current.next
             return current
 
-    def is_palindrome(self,node):
+    def is_palindrome(self):
         if self.head is None:
             return False
         else:
-            middle_element = self.find_middle(node)
+            middle_element = self.find_middle()
             reverse_second_half = self._reverse(middle_element.next)
 
             start = self.head
 
-            while start.next is not None and reverse_second_half.next is not None:
-                if middle_element.value == reverse_second_half.value:
+            while start is not None and reverse_second_half is not None:
+                if start.value == reverse_second_half.value:
                     start = start.next
                     reverse_second_half = reverse_second_half.next
-            return False
-        return True
+                else:
+                    return False
+            return True
 
     def remove_elements(self, val):
-        pass
+        while self.head is not None and self.head.val == val:
+            self.head = self.head.next
+        
+        if self.head is None:
+            return
+        
+        prev = self.head
+        current = self.head.next
+        while current is not None:
+            if current.val == val:
+                prev.next = current.next
+                current = prev.next
+            else:
+                prev = current
+                current = current.next 
