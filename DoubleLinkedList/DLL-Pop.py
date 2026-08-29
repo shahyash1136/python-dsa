@@ -1,8 +1,9 @@
 class Node:
-    def __init__(self,val):
+    def __init__(self, val):
         self.val = val
         self.prev = None
         self.next = None
+
 
 class DoubleLinkedList:
     def __init__(self):
@@ -24,7 +25,7 @@ class DoubleLinkedList:
             temp.prev = None
             return temp
 
-    def prepend(self,val):
+    def prepend(self, val):
         new_node = Node(val)
         new_node.next = self.head
         if self.head is not None:
