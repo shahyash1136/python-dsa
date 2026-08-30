@@ -102,3 +102,24 @@ class DoubleLinkedList:
             current.prev = None
             current.next = None
             return current
+
+    def traverse_forward(self):
+        if self.head is None:
+            return
+        else:
+            temp = self.head
+            while temp is not None:
+                print(temp.val)
+                temp = temp.next
+
+    def traverse_backward(self):
+        if self.head is None:
+            return
+        else:
+            temp = self.head
+            while temp.next is not None:
+                temp = temp.next
+
+            while temp is not None:
+                print(temp.val)
+                temp = temp.prev
