@@ -13,17 +13,22 @@ class Solution:
         if head is None:
             return None
 
-        current = head
-        while current is not None and current.next is not None:
-            if current.val == current.next.val:
-                current.next = current.next.next
+        slow = head
+        fast = head.next
+
+        while fast is not None:
+            if slow.val == fast.val:
+                slow.next = fast.next
             else:
-                current = current.next
+                slow = fast
+            fast = slow.next
 
         return head
 
 
-head = ListNode(1, ListNode(1, ListNode(1)))
+head = ListNode(
+    1, ListNode(1, ListNode(2, ListNode(3, ListNode(3, ListNode(4, ListNode(4))))))
+)
 solution = Solution()
 values = solution.deleteDuplicates(head)
 
