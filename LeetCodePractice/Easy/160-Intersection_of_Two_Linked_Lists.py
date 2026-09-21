@@ -54,16 +54,16 @@ print(result_node.val if result_node else None)  # expected: 8
 
 
 # --- Case 2: Non-intersecting lists ---
-# x1 = ListNode(2)
-# x2 = ListNode(6)
-# x3 = ListNode(4)
-# x1.next = x2
-# x2.next = x3
+x1 = ListNode(2)
+x2 = ListNode(6)
+x3 = ListNode(4)
+x1.next = x2
+x2.next = x3
 
-# y1 = ListNode(1)
-# y2 = ListNode(5)
-# y1.next = y2
+y1 = ListNode(1)
+y2 = ListNode(5)
+y1.next = y2
 # koi shared node nahi
 
-# result_node2 = Solution().getIntersectionNode(x1, y1)
-# print(result_node2.val if result_node2 else None)  # expected: None
+result_node2 = Solution().getIntersectionNode(x1, y1)
+print(result_node2.val if result_node2 else None)  # expected: None
